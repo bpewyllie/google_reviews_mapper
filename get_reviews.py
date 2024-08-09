@@ -140,7 +140,7 @@ def get_restaurants_around_location(
         "radius": f"{radius}",  # meters
         "keyword": "restaurant",
         "rankby": "distance",
-        "key": "AIzaSyCOU9BGhHu2Vv58uTMTinh1AOdqUziy2bs",
+        "key": f"{api_key}",
     }
 
     response = requests.get(url, params=params)
