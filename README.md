@@ -10,9 +10,27 @@ Use the script in this repo to access Google Maps' Places API, Nearby Search end
 
 3. Enable the Google Maps Nearby Search API and retrieve an API key.
 
-4. Run the `get_restaurants.py` script, replacing `API_KEY` with your own key. Adjust any function arguments as desired.
+4. Setup Python virtual environment:
 
-5. Visualize the data in Python or in another tool for mapping (I've used Tableau for my own examples)
+```
+# Windows (Powershell)
+
+python -m venv venv
+\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+```
+# Mac/Linux (bash)
+
+python -m venv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+```
+
+5. Run the `get_restaurants.py` script, replacing `API_KEY` with your own key. Adjust any function arguments as desired.
+
+6. Visualize the data in Python or in another tool for mapping (I've used Tableau for my own examples)
 
 ## To do
 

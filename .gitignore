@@ -1,2 +1,4 @@
 /output
 /tableau
+/venv
+.env

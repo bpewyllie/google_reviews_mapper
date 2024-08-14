@@ -1,0 +1,6 @@
+{
+    "python.terminal.activateEnvInCurrentTerminal": false,
+    "pylint.path": [
+        ".venv\\\\Scripts\\\\python.exe"
+    ]
+}

@@ -1,6 +1,4 @@
 requests
 pandas
-time
-math
 datetime
 gmplot
