@@ -40,6 +40,4 @@ pip install -r requirements.txt
 
 3. Test with the Nearby Search (New) API endpoint and compare results
 
-4. Optimize the grid creation to spread points over a given city/municipality.
-
-5. Add error handling
+4. Add error handling
