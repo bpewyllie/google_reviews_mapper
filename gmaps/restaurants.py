@@ -116,16 +116,13 @@ def get_restaurants_around_location_new(
 # res[0]
 
 
-def get_restaurants_around_location(
-    api_key: str, location: str, radius: int = None
-) -> list:
+def get_restaurants_around_location(api_key: str, location: str) -> list:
     """
     Uses the Nearby Search API to retrieve a list of up to 60 restaurants centered around a
     location defined by latitude, longtiude coordinates and a given radius in meters.
 
     :param str api_key: Google Maps API Key
     :param str location: (latitude, longtiude) tuple formatted as string
-    :param int radius: distance in meters to search around the location
     :rtype: list
     :return: list of restaurant jsons
     """
@@ -133,8 +130,8 @@ def get_restaurants_around_location(
 
     params = {
         "location": location,  # center to search around
-        "radius": f"{radius}",  # meters
-        "keyword": "restaurant",
+        "type": "restaurant",
+        # "keyword": "restaurant",
         "rankby": "distance",
         "key": f"{api_key}",
     }
@@ -146,11 +143,9 @@ def get_restaurants_around_location(
 
     # get next page of results using page token
     while page_token:
-        print(page_token)
-
         params = {"pagetoken": page_token, "key": f"{api_key}"}
 
-        time.sleep(3)  # wait for token to be usable in request
+        time.sleep(1)  # wait for token to be usable in request
         response = requests.get(url, params=params)
         results.extend(json.loads(response.text)["results"])
 

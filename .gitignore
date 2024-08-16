@@ -1,4 +1,6 @@
 /output
 /tableau
 /venv
+/.vscode
 .env
+*.pyc

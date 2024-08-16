@@ -8,7 +8,7 @@ Use the script in this repo to access Google Maps' Places API, Nearby Search end
 
 2. Setup a billing account.
 
-3. Enable the Google Maps Nearby Search API and retrieve an API key.
+3. Enable the Google Maps Nearby Search API and retrieve an API key. Use the API key to populate a `.env` file in the base directory (see `.env.dev` for example formatting).
 
 4. Setup Python virtual environment:
 
