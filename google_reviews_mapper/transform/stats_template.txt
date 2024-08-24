@@ -1,0 +1,57 @@
+--- SUMMARY STATS ---
+
+Date: {date}
+
+---
+
+Number of observations:                     {n_obs}
+Number of observations with >= 100 reviews: {n_obs_100}
+Mean rating, >= 100 reviews:                {mean_rating}
+
+--- Ratings Quantiles (>= 100 reviews)
+
+Minimum rating:                             {min_rating}
+First quartile:                             {first_qtile}
+Median:                                     {median}
+Third quartile:                             {third_qtile}
+Maximum rating:                             {max_rating}
+
+--- Top Rated Restaurants (>= 100 reviews)
+
+1. {top_1}
+2. {top_2}
+3. {top_3}
+4. {top_4}
+5. {top_5}
+
+--- Worst Rated Restaurants (>= 100 reviews)
+
+1. {bot_1}
+2. {bot_2}
+3. {bot_3}
+4. {bot_4}
+5. {bot_5}
+
+--- Most Popular Restaurants
+
+1. {pop_1}
+2. {pop_2}
+3. {pop_3}
+4. {pop_4}
+5. {pop_5}
+
+--- Top Rated Chains - Weighted Average Rating (>= 3 locations, >= 100 total reviews)
+
+1. {top_chain_1}
+2. {top_chain_2}
+3. {top_chain_3}
+4. {top_chain_4}
+5. {top_chain_5}
+
+--- Worst Rated Chains - Weighted Average Rating (>= 3 locations, >= 100 total reviews)
+
+1. {bot_chain_1}
+2. {bot_chain_2}
+3. {bot_chain_3}
+4. {bot_chain_4}
+5. {bot_chain_5}
