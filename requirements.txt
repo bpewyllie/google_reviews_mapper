@@ -1,8 +1,0 @@
-requests
-pandas
-python-dotenv
-geopandas
-matplotlib
-shapely
-datetime
-gmplot

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "google-reviews-mapper"
+version = "0.1.0"
+description = ""
+authors = ["Brady Wyllie <bpewyllie@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+pandas = "^2.2.2"
+python-dotenv = "^1.0.1"
+geopandas = "^1.0.1"
+matplotlib = "^3.9.2"
+shapely = "^2.0.6"
+datetime = "^5.5"
+gmplot = "^1.4.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
