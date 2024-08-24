@@ -15,5 +15,11 @@ OUTPUT_DIR = f"./output/data/{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')
 
 if __name__ == "__main__":
     google_reviews_mapper.get_restaurants.download_data(
-        API_KEY, LOCATION, RADIUS, ITERATIONS, OUTPUT_DIR, map_only=True
+        API_KEY,
+        LOCATION,
+        RADIUS,
+        ITERATIONS,
+        OUTPUT_DIR,
+        city_county="county",
+        map_only=True,
     )

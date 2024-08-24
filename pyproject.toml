@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "google-reviews-mapper"
 version = "0.1.0"
-description = ""
+description = "Python scripts for searching across Google Maps locations"
 authors = ["Brady Wyllie <bpewyllie@gmail.com>"]
 readme = "README.md"
 
@@ -20,3 +20,6 @@ gmplot = "^1.4.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+clean-restaurants = "google_reviews_mapper.transform.tools:clean_restaurant_data"

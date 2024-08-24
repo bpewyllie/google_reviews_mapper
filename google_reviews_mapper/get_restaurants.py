@@ -28,8 +28,7 @@ def download_data(
     :param str start_location: starting location (latitude, longtiude) tuple formatted as string
     :param int radius: number of meters to space grid points by
     :param int iterations: number of times to expand the grid away from the start_location
-    :param str output_dir: directory to save the output files
-        (map of search grid and restaurant list) to
+    :param str output_dir: directory to save the output files to
     :param bool map_only: if True, do not generate the restaurant data, just the search grid map
     :rtype: None
     """
@@ -64,7 +63,7 @@ def download_data(
             filtered_locs,
             county_gdf,
             "SL County Locations",
-            f"{output_dir}/grid_{datetime.date.today().strftime('%Y-%m-%d-%H-%M')}.pdf",
+            f"{output_dir}/grid_{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')}.pdf",
         )
 
     if city_county == "city":
@@ -79,7 +78,7 @@ def download_data(
             filtered_locs,
             city_gdf,
             "SLC Locations",
-            f"{output_dir}/grid_{datetime.date.today().strftime('%Y-%m-%d-%H-%M')}.pdf",
+            f"{output_dir}/grid_{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')}.pdf",
         )
 
     if map_only:
@@ -125,6 +124,6 @@ def download_data(
     ]
     all_restaurants.drop_duplicates(inplace=True)
     all_restaurants.to_csv(
-        f"{output_dir}/locs_{datetime.date.today().strftime('%Y-%m-%d-%H-%M')}.csv",
+        f"{output_dir}/locs_{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')}.csv",
         index=False,
     )
