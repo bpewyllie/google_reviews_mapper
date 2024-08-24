@@ -5,6 +5,7 @@ Tools for transforming and mapping geo files.
 import datetime
 import os
 import geopandas
+import matplotlib.pyplot as plt
 import pandas
 import shapely
 
@@ -47,7 +48,11 @@ def clean_restaurant_data(
     gdf["stars"] = gdf["rating"] * gdf["user_ratings_total"]
     gdf["primary_type"] = gdf["types_str"].apply(lambda x: x.split(",")[0])
     gdf["n_locations"] = gdf.groupby("name")["name"].transform(lambda x: x.count())
-    gdf = gdf.loc[gdf["primary_type"].isin(["restaurant", "meal_takeaway", "bakery", "bar", "cafe", "meal_delivery"])]
+    gdf = gdf.loc[
+        gdf["primary_type"].isin(
+            ["restaurant", "meal_takeaway", "bakery", "bar", "cafe", "meal_delivery"]
+        )
+    ]
 
     if output_dir:
         # Make directory for output
@@ -60,3 +65,37 @@ def clean_restaurant_data(
         )
 
     return gdf
+
+
+def plot_ratings_distribution(
+    restaurants_gdf: geopandas.GeoDataFrame, file: str = "./output/clean/ratings.png"
+) -> None:
+    """
+    Saves a histogram of the distribution of ratings for a given GeoDataFrame of restaurant review data.
+
+    :param geopandas.GeoDataFrame restaurants_gdf: GeoDataFrame of restaurant review data
+    :param str output_dir: filename of the plot saved file
+    """
+
+    # Create a histogram
+    plt.hist(restaurants_gdf["rating"], bins=10, edgecolor="black")
+    plt.xlabel("Rating")
+    plt.ylabel("Frequency")
+    plt.title("Distribution of Ratings")
+    plt.grid(False)
+    plt.savefig(file)
+
+def get_summary_stats()
+
+def test():
+
+    gdf = clean_restaurant_data()
+
+    # Get summary stats
+    print(f"minimum: {gdf.rating.min()}")
+    print(f"first quantile: {gdf.rating.quantile(0.25)}")
+    print(f"median: {gdf.rating.quantile(0.5)}")
+    print(f"third quantile: {gdf.rating.quantile(0.75)}")
+    print(f"maximum: {gdf.rating.max()}")
+    # filtered_gdf = gdf.loc[gdf["rating"] >= 4]
+    # plot_ratings_distribution(filtered_gdf)
