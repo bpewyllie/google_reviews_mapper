@@ -40,13 +40,20 @@ def clean_restaurant_data(
         crs="EPSG:4326",
     )
 
+    # Drop establishments that aren't primarily food
+    gdf["primary_type"] = gdf["types_str"].apply(lambda x: x.split(",")[0])
+    gdf = gdf.loc[
+        gdf["primary_type"].isin(
+            ["restaurant", "meal_takeaway", "bakery", "cafe", "meal_delivery"]
+        )
+    ]
+    
     # Round the coordinates to 5 decimals and remove dupes
     gdf.geometry = shapely.set_precision(gdf.geometry, grid_size=0.001)
     gdf.drop_duplicates(["name", "geometry"], inplace=True)
 
     # Additional columns
     gdf["stars"] = gdf["rating"] * gdf["user_ratings_total"]
-    gdf["primary_type"] = gdf["types_str"].apply(lambda x: x.split(",")[0])
     gdf["n_locations"] = gdf.groupby("name")["name"].transform(lambda x: x.count())
 
     # Group restaurants with multiple locations
@@ -55,11 +62,6 @@ def clean_restaurant_data(
         lambda x: x.sum()
     )
     gdf["chain_wtd_avg_rating"] = gdf["chain_stars"] / gdf["chain_ratings_total"]
-    gdf = gdf.loc[
-        gdf["primary_type"].isin(
-            ["restaurant", "meal_takeaway", "bakery", "cafe", "meal_delivery"]
-        )
-    ]
 
     # Identify locations in airport
     airport_loc = shapely.geometry.Point(-111.9768056, 40.8015768)
