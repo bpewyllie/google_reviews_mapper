@@ -11,8 +11,8 @@ import shapely
 
 
 def clean_restaurant_data(
-    input_dir: str = "./output/data",
-    output_dir: str = f"./output/clean/{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')}",
+    input_dir: str,
+    output_dir: str,
 ) -> None | geopandas.GeoDataFrame:
     """
     Reads CSV files located at input_dir, merges into a single GeoDataFrame, and saves to output_dir
@@ -48,6 +48,8 @@ def clean_restaurant_data(
     gdf["stars"] = gdf["rating"] * gdf["user_ratings_total"]
     gdf["primary_type"] = gdf["types_str"].apply(lambda x: x.split(",")[0])
     gdf["n_locations"] = gdf.groupby("name")["name"].transform(lambda x: x.count())
+
+    # Group restaurants with multiple locations
     gdf["chain_stars"] = gdf.groupby("name")["stars"].transform(lambda x: x.sum())
     gdf["chain_ratings_total"] = gdf.groupby("name")["user_ratings_total"].transform(
         lambda x: x.sum()
@@ -58,7 +60,10 @@ def clean_restaurant_data(
             ["restaurant", "meal_takeaway", "bakery", "cafe", "meal_delivery"]
         )
     ]
-    # TODO: Filter out airport locations
+
+    # Identify locations in airport
+    airport_loc = shapely.geometry.Point(-111.9768056, 40.8015768)
+    gdf["in_airport"] = gdf["geometry"].apply(lambda x: x.distance(airport_loc) <= 0.02)
 
     if output_dir:
         # Make directory for output
@@ -77,7 +82,8 @@ def plot_ratings_distribution(
     restaurants_gdf: geopandas.GeoDataFrame, file: str
 ) -> None:
     """
-    Saves a histogram of the distribution of ratings for a given GeoDataFrame of restaurant review data.
+    Saves a histogram of the distribution of ratings for a given GeoDataFrame of
+    restaurant review data.
 
     :param geopandas.GeoDataFrame restaurants_gdf: GeoDataFrame of restaurant review data
     :param str output_dir: filename of the plot saved file
@@ -103,11 +109,14 @@ def get_summary_stats(restaurants_gdf: geopandas.GeoDataFrame, file: str) -> Non
     :rtype: None
     """
 
-    gdf = restaurants_gdf
-    gdf100 = restaurants_gdf.loc[restaurants_gdf["user_ratings_total"] >= 100]
+    # Filter data to reasonable set
+    gdf = restaurants_gdf.loc[~restaurants_gdf["in_airport"]]
+    gdf100 = gdf.loc[gdf["user_ratings_total"] >= 100]
     gdf100 = gdf100.sort_values(by=["rating"], ascending=False)
     pop = gdf100.sort_values(by=["user_ratings_total"], ascending=False)
-    chains = restaurants_gdf.loc[restaurants_gdf["n_locations"] >= 3]
+
+    # Define chain restaurant as anything with 3+ locations in sample
+    chains = gdf.loc[gdf["n_locations"] >= 3]
     chains = chains.drop_duplicates("name")
     chains = chains.sort_values(by=["chain_wtd_avg_rating"], ascending=False)
 
@@ -157,7 +166,10 @@ def get_summary_stats(restaurants_gdf: geopandas.GeoDataFrame, file: str) -> Non
         f.write(text)
 
 
-def test():
+def __enter__():
+    """
+    Helper function for running the tools module from poetry
+    """
 
     input_dir = "./output/data"
     output_dir = f"./output/clean/{datetime.datetime.now().strftime('%Y-%m-%d-%H-%M')}"
@@ -166,12 +178,4 @@ def test():
 
     gdf = clean_restaurant_data(input_dir, output_dir)
     get_summary_stats(gdf, summary_stats_file)
-
-    # Get summary stats
-    # print(f"minimum: {gdf.rating.min()}")
-    # print(f"first quantile: {gdf.rating.quantile(0.25)}")
-    # print(f"median: {gdf.rating.quantile(0.5)}")
-    # print(f"third quantile: {gdf.rating.quantile(0.75)}")
-    # print(f"maximum: {gdf.rating.max()}")
-    # filtered_gdf = gdf.loc[gdf["rating"] >= 4]
-    # plot_ratings_distribution(filtered_gdf)
+    plot_ratings_distribution(gdf, plot_file)

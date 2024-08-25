@@ -22,4 +22,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-clean-restaurants = "google_reviews_mapper.transform.tools:test"
+clean-restaurants = "google_reviews_mapper.transform.tools:__enter__"
