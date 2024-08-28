@@ -52,6 +52,7 @@ def clean_restaurant_data(
     gdf.geometry = shapely.set_precision(gdf.geometry, grid_size=0.001)
     gdf = gdf.sort_values(by=["user_ratings_total"], ascending=False)
     gdf.drop_duplicates(["name", "geometry"], inplace=True)
+    gdf = gdf.sort_values(by=["rating", "user_ratings_total"], ascending=False)
 
     # Additional columns
     gdf["stars"] = gdf["rating"] * gdf["user_ratings_total"]
