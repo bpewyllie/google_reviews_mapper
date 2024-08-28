@@ -47,7 +47,7 @@ def clean_restaurant_data(
             ["restaurant", "meal_takeaway", "bakery", "cafe", "meal_delivery"]
         )
     ]
-    
+
     # Round the coordinates to 5 decimals and remove dupes
     gdf.geometry = shapely.set_precision(gdf.geometry, grid_size=0.001)
     gdf = gdf.sort_values(by=["user_ratings_total"], ascending=False)
